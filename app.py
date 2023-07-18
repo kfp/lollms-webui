@@ -34,6 +34,7 @@ from api.db import DiscussionsDB, Discussion
 from api.helpers import compare_lists
 from flask import (
     Flask,
+    redirect,
     Response,
     jsonify,
     render_template,
@@ -264,14 +265,30 @@ class LoLLMsWebUI(LoLLMsAPPI):
             "/get_available_models", "get_available_models", self.get_available_models, methods=["GET"]
         )
 
+        self.add_endpoint(
+            "/quantizing", "quantizing", self.quantizing, methods=["GET"]
+        )
+
+        self.add_endpoint(
+            "/quantizing/", "quantizing", self.quantizing, methods=["GET"]
+        )
 
         self.add_endpoint(
             "/extensions", "extensions", self.extensions, methods=["GET"]
         )
 
         self.add_endpoint(
+            "/extensions/", "extensions", self.extensions, methods=["GET"]
+        )
+
+        self.add_endpoint(
             "/training", "training", self.training, methods=["GET"]
         )
+
+        self.add_endpoint(
+            "/training/", "training", self.training, methods=["GET"]
+        )
+
         self.add_endpoint(
             "/main", "main", self.main, methods=["GET"]
         )
@@ -281,7 +298,15 @@ class LoLLMsWebUI(LoLLMsAPPI):
         )
 
         self.add_endpoint(
+            "/settings/", "settings", self.settings, methods=["GET"]
+        )
+
+        self.add_endpoint(
             "/help", "help", self.help, methods=["GET"]
+        )
+
+        self.add_endpoint(
+            "/help/", "help", self.help, methods=["GET"]
         )
         
         self.add_endpoint(
@@ -1513,16 +1538,19 @@ class LoLLMsWebUI(LoLLMsAPPI):
         return render_template("main.html")
     
     def settings(self):
-        return render_template("settings.html")
+        return self.app.redirect("/")
 
     def help(self):
-        return render_template("help.html")
+        return self.app.redirect("/")
     
     def training(self):
-        return render_template("training.html")
+        return self.app.redirect("/")
 
     def extensions(self):
-        return render_template("extensions.html")
+        return self.app.redirect("/")
+    
+    def quantizing(self):
+        return self.app.redirect("/")
 
 def sync_cfg(default_config, config):
     """Syncs a configuration with the default configuration

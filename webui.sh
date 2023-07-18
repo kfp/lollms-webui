@@ -119,4 +119,5 @@ if [ -d "./tmp" ]; then
 fi
 
 # Launch the Python application
+echo "GOT HERE"
 python app.py
